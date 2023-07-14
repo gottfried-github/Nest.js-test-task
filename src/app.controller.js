@@ -17,7 +17,8 @@ export class AppController {
 
     @Post('signup')
     @Bind(Body())
-    signup(body) {
+    async signup(body) {
         console.log("POST signup, body:", body)
+        return await this.appService.signup()
     }
 }
