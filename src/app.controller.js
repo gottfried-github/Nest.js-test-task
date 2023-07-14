@@ -1,5 +1,5 @@
 import path from 'path'
-import { Controller, Dependencies, Get, Bind, Response, Body } from '@nestjs/common';
+import { Controller, Dependencies, Get, Post, Bind, Response, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -15,9 +15,9 @@ export class AppController {
         return res.sendFile(path.resolve(__dirname, '../public/signup.html'))
     }
 
-    // @Post('signup')
-    // @Bind(Response(), Body())
-    // signup(res, body) {
-        
-    // }
+    @Post('signup')
+    @Bind(Body())
+    signup(body) {
+        console.log("POST signup, body:", body)
+    }
 }
