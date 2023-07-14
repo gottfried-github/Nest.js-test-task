@@ -1,15 +1,23 @@
-import { Controller, Dependencies, Get } from '@nestjs/common';
+import path from 'path'
+import { Controller, Dependencies, Get, Bind, Response, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
 @Dependencies(AppService)
 export class AppController {
-  constructor(appService) {
-    this.appService = appService;
-  }
+    constructor(appService) {
+        this.appService = appService;
+    }
+    
+    @Get('signup')
+    @Bind(Response())
+    getSignup(res) {
+        return res.sendFile(path.resolve(__dirname, '../public/signup.html'))
+    }
 
-  @Get()
-  getHello() {
-    return this.appService.getHello();
-  }
+    // @Post('signup')
+    // @Bind(Response(), Body())
+    // signup(res, body) {
+        
+    // }
 }
