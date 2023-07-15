@@ -1,5 +1,5 @@
 import path from 'path'
-import { Controller, Dependencies, Get, Post, Bind, Response, Body } from '@nestjs/common';
+import { Controller, Dependencies, Get, Post, Bind, Response, Body, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -13,6 +13,14 @@ export class AppController {
     @Bind(Response())
     getSignup(res) {
         return res.sendFile(path.resolve(__dirname, '../public/signup.html'))
+    }
+
+    @Get('verification')
+    @Bind(Query('token'))
+    async verify(token) {
+        const tokenDoc = await this.appService.verify(token)
+
+        return tokenDoc
     }
 
     @Post('signup')
