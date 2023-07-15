@@ -80,14 +80,14 @@ async function sendMessage(message) {
     // see https://www.labnol.org/google-api-service-account-220405
     const _messageRaw = Buffer.from(_message).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
 
-    const messageId = await gmail.users.messages.send({
+    const res = await gmail.users.messages.send({
         userId: 'me',
         resource: {
           raw: _messageRaw,
         },
     })
 
-    return messageId
+    return res.data.id
 }
 
 export default sendMessage
