@@ -18,9 +18,12 @@ export class AppController {
     @Get('verification')
     @Bind(Query('token'))
     async verify(token) {
-        const tokenDoc = await this.appService.verify(token)
+        const res = await this.appService.verify(token)
 
-        return tokenDoc
+        if (!res.result) return res.message
+
+        // TODO: redirect to login page
+        return res.message
     }
 
     @Post('signup')

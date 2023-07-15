@@ -53,8 +53,27 @@ export class SignupService {
 
     async verify(token) {
         const tokenDoc = await this.tokenModel.findOne({token})
+
+        if (null === tokenDoc) return {
+            result: false,
+            message: "the token doesn't exist"
+        }
+
         const userDoc = await this.userModel.findById(tokenDoc.userId)
 
-        return {tokenDoc, userDoc}
+        if (null === userDoc) return {
+            result: false,
+            message: "user, associated with the token doesn't exist"
+        }
+
+        userDoc.verified = true
+
+        const userRes = await userDoc.save()
+        const tokenRes = await this.tokenModel.deleteOne(tokenDoc._id)
+
+        return {
+            result: true,
+            message: "successfully verified the user"
+        }
     }
 }
