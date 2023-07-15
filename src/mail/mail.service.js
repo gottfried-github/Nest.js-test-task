@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common';
+
 import path from 'path'
 import fs from 'fs/promises'
 const {google} = require('googleapis');
@@ -11,8 +13,8 @@ const SCOPES = [
     "https://www.googleapis.com/auth/gmail.addons.current.action.compose",
     "https://www.googleapis.com/auth/gmail.compose"
 ]
-const TOKEN_PATH = path.resolve(__dirname, '../token.json')
-const CREDENTIALS_PATH = path.resolve(__dirname, '../credentials.json')
+const TOKEN_PATH = path.resolve(__dirname, '../../token.json')
+const CREDENTIALS_PATH = path.resolve(__dirname, '../../credentials.json')
 
 /**
 * Reads previously authorized credentials from the save file.
@@ -72,22 +74,23 @@ async function authorize() {
     return client;
 }
 
-async function sendMessage(message) {
-    const authClient = await authorize()
-    const gmail = google.gmail({version: 'v1', auth: authClient})
-
-    const _message = await new MailComposer(message).compile().build()
-    // see https://www.labnol.org/google-api-service-account-220405
-    const _messageRaw = Buffer.from(_message).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
-
-    const res = await gmail.users.messages.send({
-        userId: 'me',
-        resource: {
-          raw: _messageRaw,
-        },
-    })
-
-    return res.data.id
+@Injectable()
+export class MailService {
+    async sendMessage(message) {
+        const authClient = await authorize()
+        const gmail = google.gmail({version: 'v1', auth: authClient})
+    
+        const _message = await new MailComposer(message).compile().build()
+        // see https://www.labnol.org/google-api-service-account-220405
+        const _messageRaw = Buffer.from(_message).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+    
+        const res = await gmail.users.messages.send({
+            userId: 'me',
+            resource: {
+              raw: _messageRaw,
+            },
+        })
+    
+        return res.data.id
+    }
 }
-
-export default sendMessage

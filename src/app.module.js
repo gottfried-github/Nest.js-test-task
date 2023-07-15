@@ -2,9 +2,14 @@ import path from 'path'
 import { Module } from '@nestjs/common'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import {MongooseModule} from '@nestjs/mongoose'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import TokenSchema from './token.schema'
+
+import {MailService} from './mail/mail.service'
+import {MailModule} from './mail/mail.module';
+import TokenSchema from './signup/token.schema'
+import {SignupService} from './signup/signup.service'
+import {SignupModule} from './signup/signup.module';
+import {AppService} from './app.service'
+import {AppController} from './app.controller'
 
 @Module({
     imports: [
@@ -15,9 +20,11 @@ import TokenSchema from './token.schema'
             }
         }),
         MongooseModule.forRoot(`mongodb://${process.env.APP_DB_USER}:${process.env.APP_DB_PASS}@${process.env.NET_NAME}/${process.env.APP_DB_NAME}`),
-        MongooseModule.forFeature([{ name: 'token', schema: TokenSchema }])
+        MongooseModule.forFeature([{ name: 'token', schema: TokenSchema }]),
+        SignupModule,
+        MailModule
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [MailService, SignupService, AppService],
 })
 export class AppModule {}
