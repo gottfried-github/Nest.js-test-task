@@ -27,6 +27,6 @@ export class AppController {
     @Bind(Body())
     async signup(body) {
         console.log("POST signup, body:", body)
-        return await this.appService.signup()
+        return await this.appService.signup(body.email, body.password)
     }
 }

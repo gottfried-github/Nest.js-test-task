@@ -8,8 +8,8 @@ export class AppService {
         this.signupService = signupService
     }
 
-    signup() {
-        return this.signupService.signup()
+    signup(email, password) {
+        return this.signupService.signup(email, password)
     }
 
     verify(token) {

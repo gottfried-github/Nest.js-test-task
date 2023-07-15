@@ -3,20 +3,42 @@ import { Injectable, Dependencies } from '@nestjs/common';
 import {getModelToken} from '@nestjs/mongoose'
 import {MailService} from '../mail/mail.service'
 
+function generateHash(password) {
+    const salt = crypto.randomBytes(16)
+    const hash = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512')
+
+    return {salt, hash}
+}
+
 @Injectable()
-@Dependencies(getModelToken('token'), MailService)
+@Dependencies(getModelToken('token'), getModelToken('user'), MailService)
 export class SignupService {
-    constructor(tokenModel, mailService) {
+    constructor(tokenModel, userModel, mailService) {
         this.tokenModel = tokenModel
+        this.userModel = userModel
         this.mailService = mailService
     }
 
-    async signup() {
+    async signup(email, password) {
+        /* create the user */
+        const userDoc = new this.userModel({
+            email, 
+            ...generateHash(password), 
+            verified: false
+        })
+
+        const userRes = await userDoc.save()
+
+        /* create the verification token */
         const token = crypto.randomBytes(20).toString('hex')
 
-        const tokenDoc = new this.tokenModel({token})
-        const res = await tokenDoc.save()
+        const tokenDoc = new this.tokenModel({
+            userId: userRes._id,
+            token
+        })
+        const tokenRes = await tokenDoc.save()
 
+        /* send the email */
         const response = await this.mailService.sendMessage({
             from: 'dannvx@gmail.com',
             sender: 'dannvx@gmail.com',
@@ -31,7 +53,8 @@ export class SignupService {
 
     async verify(token) {
         const tokenDoc = await this.tokenModel.findOne({token})
+        const userDoc = await this.userModel.findById(tokenDoc.userId)
 
-        return tokenDoc
+        return {tokenDoc, userDoc}
     }
 }
