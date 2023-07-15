@@ -3,6 +3,12 @@
 ## Description
 
 
+## Install
+
+```bash
+$ npm install
+```
+
 ## Initialize the database
 First, run the initialization script:
 `./init.sh`
@@ -10,37 +16,11 @@ First, run the initialization script:
 Then, run docker and wait a few moments until the `init` container runs the script:
 `docker compose -f init-db.docker-compose.yml up --build`
 
-## Installation
+## Run the app
+Run docker:
+`docker compose -f run.docker-compose.yml up --build`
 
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
+Now you can go over to `localhost:3000`
 
 ## Time spent
 
