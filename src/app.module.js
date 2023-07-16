@@ -12,6 +12,9 @@ import {SignupModule} from './signup/signup.module';
 import {AppService} from './app.service'
 import {AppController} from './app.controller'
 
+import {authenticate} from './user/authenticate'
+import { AuthModule } from './auth/auth.module';
+
 @Module({
     imports: [
         ServeStaticModule.forRoot({
@@ -24,7 +27,8 @@ import {AppController} from './app.controller'
         MongooseModule.forFeature([{ name: 'token', schema: TokenSchema }]),
         MongooseModule.forFeature([{ name: 'user', schema: UserSchema }]),
         SignupModule,
-        MailModule
+        MailModule,
+        AuthModule
     ],
     controllers: [AppController],
     providers: [MailService, SignupService, AppService],
