@@ -2,7 +2,6 @@ import path from 'path'
 import { Controller, Dependencies, Get, Post, UseGuards, Bind, Request, Response, Body, Query } from '@nestjs/common';
 import { LocalAuthGuard } from './auth/local-auth.guard'
 import { AppService } from './app.service'
-import {TestGuard} from './auth/auth.test-guard'
 import {AuthenticatedGuard} from './auth/auth.authenticated-guard'
 
 @Controller()
@@ -55,9 +54,10 @@ export class AppController {
         return true
     }
 
-    @UseGuards(TestGuard)
     @Get('test')
-    test() {
+    @Bind(Request())
+    test(req) {
+        console.log("GET /test - req.user:", req.user)
         return true
     }
 
