@@ -27,6 +27,8 @@ services:
             APP_DB_PASS: asdij23rpokpkin43
             APP_DB_NAME: app
             NET_NAME: base
+
+            SESSION_SECRET: poijn34g098h3g5n
         depends_on:
             base:
                 condition: service_healthy

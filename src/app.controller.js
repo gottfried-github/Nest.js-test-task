@@ -1,8 +1,9 @@
 import path from 'path'
-import { Controller, Dependencies, Get, Post, UseGuards, Bind, Response, Body, Query } from '@nestjs/common';
+import { Controller, Dependencies, Get, Post, UseGuards, Bind, Request, Response, Body, Query } from '@nestjs/common';
 import { LocalAuthGuard } from './auth/local-auth.guard'
 import { AppService } from './app.service'
 import {TestGuard} from './auth/auth.test-guard'
+import {AuthenticatedGuard} from './auth/auth.authenticated-guard'
 
 @Controller()
 @Dependencies(AppService)
@@ -34,6 +35,13 @@ export class AppController {
         return res.sendFile(path.resolve(__dirname, '../public/login.html'))
     }
 
+    @Get('logout')
+    @Bind(Request())
+    logout(req) {
+        req.logout(null, () => {})
+        return true
+    }
+
     @Post('signup')
     @Bind(Body())
     async signup(body) {
@@ -50,6 +58,12 @@ export class AppController {
     @UseGuards(TestGuard)
     @Get('test')
     test() {
+        return true
+    }
+
+    @UseGuards(AuthenticatedGuard)
+    @Get('protected')
+    protected() {
         return true
     }
 }
