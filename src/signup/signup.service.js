@@ -1,14 +1,7 @@
-import crypto from 'crypto'
 import { Injectable, Dependencies } from '@nestjs/common';
 import {getModelToken} from '@nestjs/mongoose'
 import {MailService} from '../mail/mail.service'
-
-function generateHash(password) {
-    const salt = crypto.randomBytes(16)
-    const hash = crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512')
-
-    return {salt, hash}
-}
+import generateHash from '../helpers.js'
 
 @Injectable()
 @Dependencies(getModelToken('token'), getModelToken('user'), MailService)

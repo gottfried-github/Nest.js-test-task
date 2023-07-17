@@ -19,7 +19,18 @@ export class AppController {
 
     @Get('get')
     @Bind(Request({passthrough: true}))
-    get(req) {
-        return req.user
+    async get(req) {
+        return await this.appService.get(req.user.id)
+    }
+
+    @Post('update')
+    @Bind(Request(), Body())
+    async update(req, body) {
+        return await this.appService.update(req.user.id, body.password || null, body.fields || null)
+    }
+
+    @Get('list')
+    async list() {
+        return await this.appService.list()
     }
 }
