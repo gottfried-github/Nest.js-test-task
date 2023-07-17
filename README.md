@@ -23,16 +23,15 @@ Run docker:
 Now you can go over to `localhost:3000`
 
 ## Time spent
+14 hours
 
+## Issues
+### ServeStatic
+`ServeStaticModule` for some reason tries to serve `index.html` from the serve directory even though I set the option that should disable that behavior (`index: false`).
 
 # Research
 ## Time spent
 1:20
-
-<!--
-22:26 - 22:47
-22:50 - 00:00
--->
 
 ## AdminJS
 1. supports noSQL as well as relational dbs
