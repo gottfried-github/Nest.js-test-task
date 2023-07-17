@@ -13,7 +13,9 @@ export class AppService {
         return this.userModel.findById(id)
     }
 
-    update(id, password, fields) {
+    async update(id, password, fields) {
+        console.log('AppService, update - fields:', fields)
+
         fields = fields || {}
 
         if (password) {
@@ -23,7 +25,14 @@ export class AppService {
             fields.hash = hash.hash
         }
 
-        return this.userModel.updateOne({_id: id}, fields)
+        const res = await this.userModel.updateOne({_id: id}, fields)
+
+        const doc = await this.userModel.findById(id)
+
+        return {
+            email: doc.email,
+            avatarPath: doc.avatarPath
+        }
     }
 
     list() {

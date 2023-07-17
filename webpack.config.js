@@ -8,7 +8,7 @@ module.exports = {
         assetModuleFilename: '[name][ext]'
       },
     entry: {
-        index: './src/front-end/index.js'
+        dashboard: './src/front-end/dashboard.js'
     },
     mode: "development",
     devtool: 'inline-source-map',

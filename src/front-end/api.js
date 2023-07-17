@@ -25,4 +25,19 @@ async function update(email, password, successCb, failureCb) {
     return successCb(body, res)
 }
 
-export default {get, update}
+async function upload(file, successCb, failureCb) {
+    const form = new FormData()
+
+    form.append('file', file)
+
+    const res = await fetch('/upload', {
+        method: 'POST', body: form
+    })
+
+    const body = await res.json()
+
+    if (!res.ok) return failureCb(body, res)
+    return successCb(body, res)
+}
+
+export default {get, update, upload}
