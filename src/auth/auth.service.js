@@ -24,6 +24,6 @@ export class AuthService {
 
         if (!isEqualHash(userDoc.salt, userDoc.hash, password)) return null
 
-        return {email: userDoc.email}
+        return {id: userDoc._id, email: userDoc.email}
     }
 }

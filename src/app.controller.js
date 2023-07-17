@@ -16,4 +16,10 @@ export class AppController {
     index(res) {
         return res.sendFile(path.resolve(__dirname, '../public/index.html'))
     }
+
+    @Get('get')
+    @Bind(Request({passthrough: true}))
+    get(req) {
+        return req.user
+    }
 }
