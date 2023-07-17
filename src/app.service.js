@@ -1,18 +1,4 @@
-import { Injectable, Dependencies } from '@nestjs/common'
-import {SignupService} from './signup/signup.service'
+import { Injectable } from '@nestjs/common'
 
 @Injectable()
-@Dependencies(SignupService)
-export class AppService {
-    constructor(signupService) {
-        this.signupService = signupService
-    }
-
-    signup(email, password) {
-        return this.signupService.signup(email, password)
-    }
-
-    verify(token) {
-        return this.signupService.verify(token)
-    }
-}
+export class AppService {}

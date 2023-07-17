@@ -8,12 +8,13 @@ import {MailService} from './mail/mail.service'
 import {MailModule} from './mail/mail.module'
 import TokenSchema from './signup/token.schema'
 import {SignupService} from './signup/signup.service'
-import {SignupModule} from './signup/signup.module';
+import {SignupModule} from './signup/signup.module'
+import {UserModule} from './user/user.module'
+// import {UserController} from './user/user.controller'
 import {AppService} from './app.service'
 import {AppController} from './app.controller'
 
-import {authenticate} from './user/authenticate'
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module'
 
 @Module({
     imports: [
@@ -28,7 +29,8 @@ import { AuthModule } from './auth/auth.module';
         MongooseModule.forFeature([{ name: 'user', schema: UserSchema }]),
         SignupModule,
         MailModule,
-        AuthModule
+        AuthModule,
+        UserModule
     ],
     controllers: [AppController],
     providers: [MailService, SignupService, AppService],
