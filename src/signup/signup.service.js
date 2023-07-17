@@ -35,7 +35,7 @@ export class SignupService {
         const response = await this.mailService.sendMessage({
             from: 'dannvx@gmail.com',
             sender: 'dannvx@gmail.com',
-            to: 'tobetodee@gmail.com',
+            to: email,
             subject: 'spdload test email',
             textEncoding: 'base64',
             html: `<p>Hi! Follow the following link to verify your email: <a href='localhost:3000/verification?token=${token}'>localhost:3000/verification?token=${token}</a><p>`,
