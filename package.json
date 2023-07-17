@@ -7,8 +7,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "format": "prettier --write \"**/*.js\"",
-    "start": "babel-node index.js",
-    "start:dev": "nodemon",
+    "start": "babel-node index.js && webpack",
+    "start:dev": "./run.sh",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json"
